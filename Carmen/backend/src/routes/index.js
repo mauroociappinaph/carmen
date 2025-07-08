@@ -5,4 +5,4 @@ const router = express.Router();
 // Ejemplo: router.use('/leads', require('./leads'));
 router.use('/leads', require('./leadsRoute'));
 
-module.exports = router;
+module.exports = { getLeadsFromLinkedin };

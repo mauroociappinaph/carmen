@@ -1,14 +1,22 @@
 const { execFile } = require('child_process');
 const axios = require('axios');
 
-// Service to create a lead (mock)
-const createLeadService = async data => {
-  // Here will go the real logic to save to the database
-  return {
-    message: 'Lead created successfully (mock)',
-    data,
-  };
-};
+// Extrae el nombre de la empresa del summary usando patrones comunes
+function extractCompanyFromSummary(summary) {
+  const patterns = [
+    /at ([A-Za-z0-9&.\- ]+)/i, // "at Empresa"
+    /en ([A-Za-z0-9&.\- ]+)/i, // "en Empresa"
+    /works at ([A-Za-z0-9&.\- ]+)/i, // "works at Empresa"
+    /trabaja en ([A-Za-z0-9&.\- ]+)/i, // "trabaja en Empresa"
+  ];
+  for (const pattern of patterns) {
+    const match = summary.match(pattern);
+    if (match && match[1]) {
+      return match[1].replace(/[.,;].*$/, '').trim();
+    }
+  }
+  return '';
+}
 
 const getEmailFromHunter = async (name, domain) => {
   try {
@@ -54,18 +62,19 @@ const getLeadsFromLinkedinService = async search => {
         }
         try {
           const result = JSON.parse(stdout);
-          // Enriquecer cada lead con email de Hunter.io
+          // Enriquecer cada lead con email de Hunter.io y nombre de empresa
           const leads = await Promise.all(
             (result.results || []).map(async item => {
               const name = item.title || '';
               const linkedin = item.url || '';
               const summary = item.snippet || '';
+              const company = extractCompanyFromSummary(summary);
               // Intentar extraer dominio de la empresa del summary o dejarlo vacío
               let domain = '';
               const match = summary.match(/([a-zA-Z0-9-]+\.[a-zA-Z]{2,})/);
               if (match) domain = match[1];
               const email = domain && name ? await getEmailFromHunter(name, domain) : null;
-              return { name, linkedin, summary, email };
+              return { name, linkedin, summary, company, email };
             })
           );
           resolve({ message: 'Leads from Linkedin obtained successfully', data: leads });
@@ -77,4 +86,4 @@ const getLeadsFromLinkedinService = async search => {
   });
 };
 
-module.exports = { createLeadService, getLeadsFromLinkedinService };
+module.exports = { getLeadsFromLinkedinService };

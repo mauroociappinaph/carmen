@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { createLead, getLeadsFromLinkedin } = require('../controllers/leadsControllers');
+const { getLeadsFromWeb } = require('../controllers/leadsControllers');
 
-// Route to get leads from Linkedin
-router.get('/linkedin-leads', getLeadsFromLinkedin);
+// Route to get leads from any site
+router.get('/web-leads', getLeadsFromWeb);
 
 module.exports = router;

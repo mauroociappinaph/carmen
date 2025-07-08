@@ -34,14 +34,15 @@ const getEmailFromHunter = async (name, domain) => {
   }
 };
 
-const getLeadsFromLinkedinService = async search => {
+const getLeadsFromWebService = async (search, site = '') => {
   return new Promise((resolve, reject) => {
+    const query = site ? `${search} site:${site}` : search;
     const args = [
       '-y',
       'firecrawl-mcp',
       'search',
       '--query',
-      `${search} site:linkedin.com/in`,
+      query,
       '--limit',
       '5',
       '--lang',
@@ -77,7 +78,7 @@ const getLeadsFromLinkedinService = async search => {
               return { name, linkedin, summary, company, email };
             })
           );
-          resolve({ message: 'Leads from Linkedin obtained successfully', data: leads });
+          resolve({ message: 'Leads obtained successfully', data: leads });
         } catch (parseError) {
           reject({ message: 'Error parsing firecrawl-mcp output', error: parseError });
         }
@@ -86,4 +87,4 @@ const getLeadsFromLinkedinService = async search => {
   });
 };
 
-module.exports = { getLeadsFromLinkedinService };
+module.exports = { getLeadsFromWebService };

@@ -5,4 +5,7 @@ const router = express.Router();
 // Ejemplo: router.use('/leads', require('./leads'));
 router.use('/leads', require('./leadsRoute'));
 
-module.exports = { getLeadsFromLinkedin };
+const { chatAsk } = require('../controllers/chatController');
+router.post('/chat/ask', chatAsk);
+
+module.exports = router;

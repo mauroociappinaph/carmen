@@ -4,7 +4,7 @@ const { getLeadsFromWebService } = require('../services/leadsService');
 // Utilidad para preguntar a Mistral
 async function askMistral(message) {
   const apiKey = process.env.API_KEY_MISTRAL;
-  console.log('apiKey', apiKey);
+
   const response = await axios.post(
     'https://api.mistral.ai/v1/chat/completions',
     {
@@ -27,6 +27,7 @@ async function askMistral(message) {
   );
   // Intentar extraer el JSON de la respuesta
   const text = response.data.choices[0].message.content;
+  console.log('Mistral raw response:', text);
   try {
     return JSON.parse(text);
   } catch {
@@ -38,14 +39,18 @@ async function askMistral(message) {
 const chatAsk = async (req, res) => {
   try {
     const { message } = req.body;
+    console.log('Mensaje recibido del usuario:', message);
     if (!message) return res.status(400).json({ error: 'Message is required' });
     const mistralResult = await askMistral(message);
+    console.log('Respuesta de Mistral interpretada:', mistralResult);
     if (!mistralResult.search) {
       return res.status(200).json({ message: 'No lead search detected', data: [] });
     }
     const leads = await getLeadsFromWebService(mistralResult.search, mistralResult.site || '');
+    console.log('Leads encontrados:', leads);
     res.status(200).json(leads);
   } catch (error) {
+    console.error('Error en chatAsk:', error);
     res.status(500).json({ error: error.message });
   }
 };

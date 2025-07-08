@@ -1,14 +1,15 @@
-const { getLeadsFromLinkedinService } = require('../services/leadsService');
+const { getLeadsFromWebService } = require('../services/leadsService');
 
-// Controller to get leads from Linkedin
-const getLeadsFromLinkedin = async (req, res) => {
+// Controller to get leads from any site
+const getLeadsFromWeb = async (req, res) => {
   try {
     const search = req.query.q || 'marketing';
-    const leads = await getLeadsFromLinkedinService(search);
+    const site = req.query.site || '';
+    const leads = await getLeadsFromWebService(search, site);
     res.status(200).json(leads);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = { getLeadsFromLinkedin };
+module.exports = { getLeadsFromWeb };

@@ -4,6 +4,9 @@
   "description": "**Carmen** es una plataforma de asistencia digital que permite interactuar con múltiples herramientas desde una única interfaz, tanto web como Telegram. A través de un agente inteligente, los usuarios pueden automatizar tareas, organizar información y ejecutar acciones complejas sin conocimientos técnicos.",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint . --ext .js,.mjs,.cjs",
+    "format": "prettier --write .",
+    "start": "npm run lint && npm run format && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

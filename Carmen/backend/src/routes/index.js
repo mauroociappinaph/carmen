@@ -7,6 +7,6 @@ import leadsRoute from './leadsRoute.js';
 router.use('/leads', leadsRoute);
 
 import { chatAsk } from '../controllers/chatController.js';
-router.post('/chat/ask', chatAsk);
+router.post('/chat', chatAsk);
 
 export default router;

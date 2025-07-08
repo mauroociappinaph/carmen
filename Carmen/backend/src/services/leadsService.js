@@ -35,8 +35,13 @@ const getEmailFromHunter = async (name, domain) => {
 };
 
 const getLeadsFromWebService = async (search, site = '') => {
+  console.log(
+    'DEBUG FIRECRAWL_API_KEY:',
+    process.env.FIRECRAWL_API_KEY ? 'PRESENTE' : 'NO DEFINIDA'
+  );
   return new Promise((resolve, reject) => {
     const query = site ? `${search} site:${site}` : search;
+    console.log('DEBUG QUERY FIRECRAWL:', query);
     const args = [
       '-y',
       'firecrawl-mcp',
@@ -65,7 +70,7 @@ const getLeadsFromWebService = async (search, site = '') => {
           const result = JSON.parse(stdout);
           // Enriquecer cada lead con email de Hunter.io y nombre de empresa
           const leads = await Promise.all(
-            (result.results || []).map(async item => {
+            (result.results || []).map(async (item) => {
               const name = item.title || '';
               const linkedin = item.url || '';
               const summary = item.snippet || '';

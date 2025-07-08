@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 // Aquí se importarán y montarán las rutas de cada recurso
 // Ejemplo: router.use('/leads', require('./leads'));
-router.use('/leads', require('./leadsRoute'));
+import leadsRoute from './leadsRoute.js';
+router.use('/leads', leadsRoute);
 
-const { chatAsk } = require('../controllers/chatController');
+import { chatAsk } from '../controllers/chatController.js';
 router.post('/chat/ask', chatAsk);
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { getLeadsFromWebService } = require('../services/leadsService');
+import axios from 'axios';
+import { getLeadsFromWebService } from '../services/leadsService.js';
 
 // Utilidad para preguntar a Mistral
 async function askMistral(message) {
@@ -55,4 +55,4 @@ const chatAsk = async (req, res) => {
   }
 };
 
-module.exports = { chatAsk };
+export { chatAsk };

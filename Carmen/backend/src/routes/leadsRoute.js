@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const { getLeadsFromWeb } = require('../controllers/leadsControllers');
+import { getLeadsFromWeb } from '../controllers/leadsControllers.js';
 
 // Route to get leads from any site
 router.get('/web-leads', getLeadsFromWeb);
 
-module.exports = router;
+export default router;

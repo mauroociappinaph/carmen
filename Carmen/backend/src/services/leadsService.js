@@ -1,5 +1,5 @@
-const { execFile } = require('child_process');
-const axios = require('axios');
+import { execFile } from 'child_process';
+import axios from 'axios';
 
 // Extrae el nombre de la empresa del summary usando patrones comunes
 function extractCompanyFromSummary(summary) {
@@ -87,4 +87,4 @@ const getLeadsFromWebService = async (search, site = '') => {
   });
 };
 
-module.exports = { getLeadsFromWebService };
+export { getLeadsFromWebService };

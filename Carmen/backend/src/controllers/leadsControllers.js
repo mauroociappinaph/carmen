@@ -1,4 +1,4 @@
-const { getLeadsFromWebService } = require('../services/leadsService');
+import { getLeadsFromWebService } from '../services/leadsService.js';
 
 // Controller to get leads from any site
 const getLeadsFromWeb = async (req, res) => {
@@ -12,4 +12,4 @@ const getLeadsFromWeb = async (req, res) => {
   }
 };
 
-module.exports = { getLeadsFromWeb };
+export { getLeadsFromWeb };

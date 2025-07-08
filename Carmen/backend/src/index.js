@@ -1,15 +1,15 @@
-require('dotenv').config();
-const express = require('express');
+import 'dotenv/config';
+import express from 'express';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
 // Importa el barril de rutas
-const routes = require('./routes');
+import routes from './routes/index.js';
 app.use('/api', routes);
 
-const errorHandler = require('./middlewares/errorHandler');
+import errorHandler from './middlewares/errorHandler.js';
 app.use(errorHandler);
 
 app.listen(PORT, () => {

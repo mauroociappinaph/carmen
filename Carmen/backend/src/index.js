@@ -9,6 +9,9 @@ app.use(express.json());
 const routes = require('./routes');
 app.use('/api', routes);
 
+const errorHandler = require('./middlewares/errorHandler');
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
